@@ -54,7 +54,7 @@ function mm_initialize_plugin_options() {
     
     add_settings_section(
         'general_settings_section',        
-        __( 'Center Map', 'sandbox' ),     
+        __( 'Center Map', 'map-me' ),     
         'mm_general_options_callback', 
         'mm_plugin_settings'     
     );
@@ -62,42 +62,42 @@ function mm_initialize_plugin_options() {
    
     add_settings_field( 
         'city',                      
-        __( 'City', 'sandbox' ),                          
+        __( 'City', 'map-me' ),                          
         'mm_city_callback', 
         'mm_plugin_settings',   
         'general_settings_section',        
         array(                              
-            __( ' Name of the city.', 'sandbox' ),
+            __( ' Name of the city.', 'map-me' ),
         )
     );
     add_settings_field( 
         'zip',                      
-        __( 'Zip Code', 'sandbox' ),                          
+        __( 'Zip Code', 'map-me' ),                          
         'mm_zip_callback', 
         'mm_plugin_settings',   
         'general_settings_section',        
         array(                              
-            __( ' Enter a zip code.', 'sandbox' ),
+            __( ' Enter a zip code.', 'map-me' ),
         )
     );
     add_settings_field( 
         'country',                      
-        __( 'Country', 'sandbox' ),                          
+        __( 'Country', 'map-me' ),                          
         'mm_country_callback', 
         'mm_plugin_settings',   
         'general_settings_section',        
         array(                              
-            __( ' Country or State name', 'sandbox' ),
+            __( ' Country or State name', 'map-me' ),
         )
     );
     add_settings_field( 
         'address',                      
-        __( 'Address', 'sandbox' ),                          
+        __( 'Address', 'map-me' ),                          
         'mm_address_callback', 
         'mm_plugin_settings',   
         'general_settings_section',        
         array(                              
-            __( ' Street name and number', 'sandbox' ),
+            __( ' Street name and number', 'map-me' ),
         )
     );
     
@@ -112,7 +112,7 @@ add_action( 'admin_init', 'mm_initialize_plugin_options' );
 
 
 function mm_general_options_callback() {
-    echo '<p>' . __( 'Enter at least one location parameter.</br>For more precise centering populate more fields.', 'sandbox' ) . '</p>';
+    echo '<p>' . __( 'Enter at least one location parameter.</br>For more precise centering populate more fields.', 'map-me' ) . '</p>';
 }
 
 
@@ -128,7 +128,7 @@ function mm_initialize_plugin_display_options() {
     
     add_settings_section(
         'general_display_settings_section',        
-        __( 'Display Options', 'sandbox' ),     
+        __( 'Display Options', 'map-me' ),     
         'mm_general_display_options_callback', 
         'mm_plugin_settings'     
     );    
@@ -136,53 +136,53 @@ function mm_initialize_plugin_display_options() {
 
     add_settings_field( 
         'zoom',                      
-        __( 'Initial Zoom', 'sandbox' ),                          
+        __( 'Initial Zoom', 'map-me' ),                          
         'mm_zoom_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
         array(                              
-            __( ' Map Zoom.', 'sandbox' ),
+            __( ' Map Zoom.', 'map-me' ),
         )
     );
     add_settings_field( 
         'scroll',                      
-        __( 'Mouse Scroll', 'sandbox' ),                          
+        __( 'Mouse Scroll', 'map-me' ),                          
         'mm_scroll_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
         array(                              
-            __( ' Eneable scrolling/zooming over map.', 'sandbox' ),
+            __( ' Eneable scrolling/zooming over map.', 'map-me' ),
         )
     );
     add_settings_field( 
         'controls',                      
-        __( 'Controls', 'sandbox' ),                          
+        __( 'Controls', 'map-me' ),                          
         'mm_controls_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
         array(                              
-            __( ' Hide controls on the map.', 'sandbox' ),
+            __( ' Hide controls on the map.', 'map-me' ),
         )
     ); 
     add_settings_field( 
         'styles',                      
-        __( 'Map Sytele', 'sandbox' ),                          
+        __( 'Map Sytele', 'map-me' ),                          
         'mm_styles_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
         array(                              
-            __( ' Choose your prefered map style.', 'sandbox' ),
+            __( ' Choose your prefered map style.', 'map-me' ),
         )
     );
 
     add_settings_field( 
         'height',                      
-        __( 'Map Height', 'sandbox' ),                          
+        __( 'Map Height', 'map-me' ),                          
         'mm_height_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
         array(                              
-            __( ' (width is always 100% of parent element).', 'sandbox' ),
+            __( ' (width is always 100% of parent element).', 'map-me' ),
         )
     );     
     
@@ -197,12 +197,45 @@ add_action( 'admin_init', 'mm_initialize_plugin_display_options' );
 
 
 function mm_general_display_options_callback() {
-    echo '<p>' . __( 'Display options.', 'sandbox' ) . '</p>';
+    echo '<p>' . __( 'Display options.', 'map-me' ) . '</p>';
 }
 
 
 
+function mm_initialize_plugin_advanced_options() {
+    
+    add_settings_section(
+        'mm_advanced_options_callback',        
+        __( 'Google API key', 'map-me' ),     
+        'mm_google_api_callback', 
+        'mm_plugin_settings'     
+    );    
+   
 
+    add_settings_field( 
+        'mm_api',                      
+        __( 'API key', 'map-me' ),                          
+        'mm_api_callback', 
+        'mm_plugin_settings',   
+        'mm_advanced_options_callback',        
+        array(                              
+            __( ' Enter API key.', 'map-me' ),
+        )
+    );
+   
+  
+    register_setting(
+        'mm_plugin_settings',
+        'mm_plugin_settings'
+    );
+    
+} 
+add_action( 'admin_init', 'mm_initialize_plugin_advanced_options' );
+
+
+function mm_google_api_callback() {
+    echo '<p>' . __( 'Enter API key.', 'map-me' ) . '</p>';
+}
 
 
 
@@ -328,6 +361,14 @@ function mm_height_callback($args) {
     $html .= '<label for="height">&nbsp;'  . $args[0] . '</label>';    
     echo $html;
 } 
+
+
+function mm_api_callback($args) {
+    $options = get_option('mm_plugin_settings');
+    $html = '<input type="text" id="mm_api" name="mm_plugin_settings[mm_api]" value="'.$options['mm_api'].'" />';   
+    $html .= '<label for="mm_api">&nbsp;'  . $args[0] . '</label>';     
+    echo $html;    
+}
 
 
 function mm_display_page() { ?> 

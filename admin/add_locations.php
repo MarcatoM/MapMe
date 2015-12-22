@@ -8,18 +8,18 @@ add_action( 'init', 'mm_post_types' );
 function mm_post_types() {
 
   $labels = array(
-    'name'                => __( 'Map Me', 'mahat' ),
-    'singular_name'       => __( 'Map Me', 'mahat' ),
-    'add_new'             => __( 'Add New Location', 'mahat' ),
-    'add_new_item'        => __( 'Add New Location', 'mahat' ),
-    'edit_item'           => __( 'Edit Location', 'mahat' ),
-    'new_item'            => __( 'New Location', 'mahat' ),
-    'all_items'           => __( 'Locations', 'mahat' ),
-    'view_item'           => __( 'View Location', 'mahat' ),
-    'search_items'        => __( 'Search Locations', 'mahat' ),
-    'not_found'           => __( 'No Location found', 'mahat' ),
-    'not_found_in_trash'  => __( 'No Location found in Trash', 'mahat' ),
-    'menu_name'           => __( 'Map Me', 'mahat' ),
+    'name'                => __( 'Map Me', 'map-me' ),
+    'singular_name'       => __( 'Map Me', 'map-me' ),
+    'add_new'             => __( 'Add New Location', 'map-me' ),
+    'add_new_item'        => __( 'Add New Location', 'map-me' ),
+    'edit_item'           => __( 'Edit Location', 'map-me' ),
+    'new_item'            => __( 'New Location', 'map-me' ),
+    'all_items'           => __( 'Locations', 'map-me' ),
+    'view_item'           => __( 'View Location', 'map-me' ),
+    'search_items'        => __( 'Search Locations', 'map-me' ),
+    'not_found'           => __( 'No Location found', 'map-me' ),
+    'not_found_in_trash'  => __( 'No Location found in Trash', 'map-me' ),
+    'menu_name'           => __( 'Map Me', 'map-me' ),
   );
 
   $supports = array( 'title' );  
@@ -41,9 +41,9 @@ function mm_post_types() {
 //manage the columns of the `page` post type
 function manage_columns_for_mm($columns){
     //add new columns
-    $columns['country'] = 'Country';
-    $columns['city'] = 'City';    
-    $columns['featured'] = 'Featured'; 
+    $columns['country'] = __( 'Country', 'map-me' );
+    $columns['city'] = __( 'City', 'map-me' );  
+    $columns['featured'] = __( 'Featured', 'map-me' );
     return $columns;
 }
 add_action('manage_mm_posts_columns','manage_columns_for_mm');
@@ -144,12 +144,12 @@ function location_data_box($object){
     <table id="mm_location_settings">
       <tbody>
       <tr style="height:30px; font-size:1.1em;">
-        <th colspan="2"><?php _e("Location Info: ", 'mm_settings' ); ?></th>        
-        <th style="width:200px;"><?php _e("Featured on Map: ", 'mm_settings' ); ?></th>
-        <th class="mm_set_marker_animation" style="width:200px; display:<?php echo $show; ?>;"><?php _e("Marker Animation: ", 'mm_settings' ); ?></th>        
+        <th colspan="2"><?php _e("Location Info: ", 'map-me' ); ?></th>        
+        <th style="width:200px;"><?php _e("Featured on Map: ", 'map-me' ); ?></th>
+        <th class="mm_set_marker_animation" style="width:200px; display:<?php echo $show; ?>;"><?php _e("Marker Animation: ", 'map-me' ); ?></th>        
       </tr>
       <tr style="height:38px;">
-          <td><strong><?php _e("Address: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("Address: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_address" value="<?php echo $mm_address; ?>" /></td>          
           <td style="text-align:center;"><input type="checkbox" id="mm_featured" name="mm_featured" value="yes" <?php if($mm_featured == "yes"){echo 'checked';} ?> /></td>
           <td class="mm_set_marker_animation" style="display:<?php echo $show; ?>;">
@@ -160,37 +160,37 @@ function location_data_box($object){
         </tr>
       <tr>
         <tr>
-          <td><strong><?php _e("City: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("City: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_city" value="<?php echo $mm_city; ?>" /></td>
         </tr>
         <tr>
-          <td><strong><?php _e("Zip Code: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("Zip Code: ", 'map-me' ); ?></strong></td>
           <td><input type="number" name="mm_zip" value="<?php echo $mm_zip; ?>" /></td>
         </tr>
         <tr>
-          <td><strong><?php _e("Country: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("Country: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_country" value="<?php echo $mm_country; ?>" /></td>
         </tr> 
         <tr>
-          <td><strong><?php _e("Website: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("Website: ", 'map-me' ); ?></strong></td>
           <td><input type="url" name="mm_url" value="<?php echo $mm_url; ?>" /></td>
         </tr> 
 
         <tr style="height:15px;"></tr>  
              
         <tr>
-          <td><strong><?php _e("Longitude: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("Longitude: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_longitude" value="<?php echo $mm_longitude; ?>" /></td>
         </tr>
         <tr>
-          <td><strong><?php _e("Latitude: ", 'mm_settings' ); ?></strong></td>
+          <td><strong><?php _e("Latitude: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_latitude" value="<?php echo $mm_latitude; ?>" /></td>
         </tr>
 
         <tr style="height:15px;"></tr>  
 
         <tr>
-          <td><strong><?php _e("Short Description: ", 'mm_settings' ); ?></td></strong></td>
+          <td><strong><?php _e("Short Description: ", 'map-me' ); ?></td></strong></td>
           <td><textarea name="mm_description" rows="7" maxlength="255"><?php echo $mm_description; ?></textarea></td>
         </tr>        
       </tbody>
@@ -249,15 +249,33 @@ function location_data_box($object){
 }
 
 
+function mm_get_api_key(){
+  $options = get_option('mm_plugin_settings');
+  $key = $options['mm_api'];
+
+  return $key;
+
+}
+
+
  
 // function to geocode address, it will return false if unable to geocode address
 function geocode($address){
  
     // url encode the address
     $address = urlencode($address);  
+
+    $api_key = mm_get_api_key();
+
+    if ($api_key !== "") {
+      // google map geocode api url
+      $url = "https://maps.google.com/maps/api/geocode/json?sensor=false&address={$address}&key={$api_key}";
+    } else {
+      // google map geocode api url
+      $url = "https://maps.google.com/maps/api/geocode/json?sensor=false&address={$address}";
+    }
      
-    // google map geocode api url
-    $url = "https://maps.google.com/maps/api/geocode/json?sensor=false&address={$address}";
+    
  
     // get the json response
     $resp_json = file_get_contents($url);    

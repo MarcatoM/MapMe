@@ -16,13 +16,16 @@ function initialize(){
 
     var marker, i;
 
-    for (i = 0; i < locations.length; i++) {  
+    for (i = 0; i < locations.length; i++) { 
+
       var latlng = new google.maps.LatLng(locations[i][0], locations[i][1]);
 
-      marker = new google.maps.Marker({
-        position: latlng,
-        map: map //remove if offset is taking place        
-      });	
+      
+        marker = new google.maps.Marker({
+          position: latlng,
+          map: map //remove if offset is taking place        
+        });       
+      
 
       marker.setIcon(locations[i][10]);      
 
@@ -57,6 +60,7 @@ function initialize(){
       })(marker, i));
 
     }
+
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

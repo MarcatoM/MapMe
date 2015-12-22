@@ -6,6 +6,7 @@
  Author: MarcatoM
  Version: 0.1
  Author URI: http://marcatom.xyz
+ Text Domain: map-me
  */
 
 // Exit if accessed directly
@@ -28,8 +29,18 @@ include 'admin/help_menu_page.php';
 
 
 function mm_styles_and_scripts() {	 
+
+  $api_key = mm_get_api_key();
+
   wp_enqueue_script('map-styles', plugins_url( '/assets/js/map_styles.js' , __FILE__ ), array('jquery'), '1.0', true);
-	wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js', true);
+
+  if ($api_key !== "") {
+    wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js?key={$api_key}&callback=initMap', true);
+  } else {
+    wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js', true);
+  }
+	
+
 	wp_register_script('init-script', plugins_url( '/assets/js/init.js' , __FILE__ ), array('jquery'), '1.0', true);	
 }
 add_action( 'wp_enqueue_scripts', 'mm_styles_and_scripts' );
@@ -56,13 +67,13 @@ function mm_map(){
 
   $map_settings = get_option('mm_plugin_settings');
 
-  if ($map_settings['scroll'] == 1) {
+  if ($map_settings['scroll']) {
     $scroll = true;
   } else {
     $scroll = false;
   }
 
-  if ($map_settings['controls'] == 1) {
+  if ($map_settings['controls']) {
     $controls = true;
   } else {
     $controls = false;
