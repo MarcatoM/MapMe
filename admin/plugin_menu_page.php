@@ -26,37 +26,29 @@ add_action('admin_menu', 'mm_dashboard_page');
 
 
 
-function mm_default_center_options() {
+function mm_default_options() {
     
-    $defaults = array(
+    $defaults1 = array(
         'city'            =>  '',
         'zip'             =>  '',
         'country'         =>  '',
-        'address'         =>  ''                  
-    );
-    
-    return apply_filters( 'mm_default_center_options', $defaults );
-    
-}
-
-function mm_default_display_options() {
-    
-    $defaults = array(
+        'address'         =>  '',
         'zoom'            =>  7,
         'scroll'          =>  false,
-        'controls'        =>  true,   
+        'controls'        =>  false,   
         'styles'          =>  'default',
         'height'          =>  380                   
     );
     
-    return apply_filters( 'mm_default_display_options', $defaults );
+    return apply_filters( 'mm_default_options', $defaults1 );
     
 }
+
 
 function mm_initialize_plugin_options() {
     
     if( false == get_option( 'mm_plugin_settings' ) ) {  
-        add_option( 'mm_plugin_settings', apply_filters( 'mm_default_center_options', mm_default_center_options() ) );
+        add_option( 'mm_plugin_settings', apply_filters( 'mm_default_options', mm_default_options() ) );
     } 
 
     
@@ -130,7 +122,7 @@ function mm_general_options_callback() {
 function mm_initialize_plugin_display_options() {
     
     if( false == get_option( 'mm_plugin_settings' ) ) {  
-        add_option( 'mm_plugin_settings', apply_filters( 'mm_default_display_options', mm_default_display_options() ) );
+        add_option( 'mm_plugin_settings', apply_filters( 'mm_default_options', mm_default_options() ) );
     } 
 
     
