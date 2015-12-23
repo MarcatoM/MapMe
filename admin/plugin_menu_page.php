@@ -32,9 +32,7 @@ function mm_default_options() {
         'city'            =>  '',
         'zip'             =>  '',
         'country'         =>  '',
-        'address'         =>  '',
-        'longitude'       =>  '',
-        'latitude'        =>  '',       
+        'address'         =>  '',     
         'zoom'            =>  7,
         'scroll'          =>  false,
         'controls'        =>  false,   
@@ -103,7 +101,7 @@ function mm_initialize_plugin_options() {
         )
     );
 
-
+ 
     register_setting(
         'mm_plugin_settings',
         'mm_plugin_settings'

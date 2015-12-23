@@ -136,22 +136,26 @@ function mm_map(){
         $option_check['zip'] != $map_settings['zip'] ||
         $option_check['country'] != $map_settings['country'] ||
         $option_check['address'] != $map_settings['address'] ) {
-      
+
       $center_at = geocode($map_settings['zip'].', '.$map_settings['city'].', '.$map_settings['country'].', '.$map_settings['address']);
-      $map_settings['longitude'] = $center_at[0];
-      $map_settings['latitude'] = $center_at[1];
-      update_option( 'mm_plugin_settings', $map_settings );
+
+      update_option( 'mm_center_longitude', $center_at[0] );
+      update_option( 'mm_center_latitude', $center_at[1] );
 
       $option_check['zip'] = $map_settings['zip'];
       $option_check['city'] = $map_settings['city'];
       $option_check['country'] = $map_settings['country'];
-      $option_check['address'] = $map_settings['address'];    
-      update_option( 'mm_plugin_center_check', $option_check);  
+      $option_check['address'] = $map_settings['address'];
+
+      update_option( 'mm_plugin_center_check', $option_check); 
+
     } else {
+
       $center_at = array(
-        $map_settings['longitude'],
-        $map_settings['latitude']
+        get_option('mm_center_longitude'),
+        get_option('mm_center_latitude')
         );
+
     }      
  
 ?>
