@@ -33,6 +33,8 @@ function mm_default_options() {
         'zip'             =>  '',
         'country'         =>  '',
         'address'         =>  '',
+        'longitude'       =>  '',
+        'latitude'        =>  '',       
         'zoom'            =>  7,
         'scroll'          =>  false,
         'controls'        =>  false,   
@@ -100,8 +102,8 @@ function mm_initialize_plugin_options() {
             __( ' Street name and number', 'map-me' ),
         )
     );
-    
-  
+
+
     register_setting(
         'mm_plugin_settings',
         'mm_plugin_settings'
@@ -202,44 +204,6 @@ function mm_general_display_options_callback() {
 
 
 
-function mm_initialize_plugin_advanced_options() {
-    
-    add_settings_section(
-        'mm_advanced_options_callback',        
-        __( 'Google API key', 'map-me' ),     
-        'mm_google_api_callback', 
-        'mm_plugin_settings'     
-    );    
-   
-
-    add_settings_field( 
-        'mm_api',                      
-        __( 'API key', 'map-me' ),                          
-        'mm_api_callback', 
-        'mm_plugin_settings',   
-        'mm_advanced_options_callback',        
-        array(                              
-            __( ' Enter API key.', 'map-me' ),
-        )
-    );
-   
-  
-    register_setting(
-        'mm_plugin_settings',
-        'mm_plugin_settings'
-    );
-    
-} 
-add_action( 'admin_init', 'mm_initialize_plugin_advanced_options' );
-
-
-function mm_google_api_callback() {
-    echo '<p>' . __( 'Enter API key.', 'map-me' ) . '</p>';
-}
-
-
-
-
 function mm_city_callback($args) {
     $options = get_option('mm_plugin_settings');
     $html = '<input type="text" id="city" name="mm_plugin_settings[city]" value="'.$options['city'].'" />';   
@@ -266,7 +230,7 @@ function mm_address_callback($args) {
     $html = '<input type="text" id="address" name="mm_plugin_settings[address]" value="'.$options['address'].'" />';     
     $html .= '<label for="address">&nbsp;'  . $args[0] . '</label>';    
     echo $html;
-}  
+}
 
 // Display Options
 
@@ -362,13 +326,6 @@ function mm_height_callback($args) {
     echo $html;
 } 
 
-
-function mm_api_callback($args) {
-    $options = get_option('mm_plugin_settings');
-    $html = '<input type="text" id="mm_api" name="mm_plugin_settings[mm_api]" value="'.$options['mm_api'].'" />';   
-    $html .= '<label for="mm_api">&nbsp;'  . $args[0] . '</label>';     
-    echo $html;    
-}
 
 
 function mm_display_page() { ?> 

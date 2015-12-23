@@ -22,7 +22,7 @@ function icons_dir_path(){
   $folder =  plugin_dir_path( __FILE__ ) . 'assets/icons/';
   return $folder;
 } 
- 
+include 'admin/geocode.php'; 
 include 'admin/plugin_menu_page.php';
 include 'admin/add_locations.php';
 include 'admin/help_menu_page.php';
@@ -30,17 +30,11 @@ include 'admin/help_menu_page.php';
 
 function mm_styles_and_scripts() {	 
 
-  $api_key = mm_get_api_key();
-
   wp_enqueue_script('map-styles', plugins_url( '/assets/js/map_styles.js' , __FILE__ ), array('jquery'), '1.0', true);
 
-  if ($api_key !== "") {
-    wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js?key={$api_key}&callback=initMap', true);
-  } else {
-    wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js', true);
-  }
-	
+  wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js', true);
 
+	
 	wp_register_script('init-script', plugins_url( '/assets/js/init.js' , __FILE__ ), array('jquery'), '1.0', true);	
 }
 add_action( 'wp_enqueue_scripts', 'mm_styles_and_scripts' );
@@ -67,13 +61,13 @@ function mm_map(){
 
   $map_settings = get_option('mm_plugin_settings');
 
-  if ($map_settings['scroll']) {
+  if (isset($map_settings['scroll'])){
     $scroll = true;
   } else {
     $scroll = false;
   }
 
-  if ($map_settings['controls']) {
+  if (isset($map_settings['controls'])){
     $controls = true;
   } else {
     $controls = false;
@@ -134,15 +128,37 @@ function mm_map(){
 
     wp_reset_postdata();
 
-    $center_at = geocode($map_settings['zip'].', '.$map_settings['city'].', '.$map_settings['country'].', '.$map_settings['address']);
+
+
+    $option_check = get_option('mm_plugin_center_check');
+
+    if( $option_check['city'] != $map_settings['city'] ||
+        $option_check['zip'] != $map_settings['zip'] ||
+        $option_check['country'] != $map_settings['country'] ||
+        $option_check['address'] != $map_settings['address'] ) {
+      
+      $center_at = geocode($map_settings['zip'].', '.$map_settings['city'].', '.$map_settings['country'].', '.$map_settings['address']);
+      $map_settings['longitude'] = $center_at[0];
+      $map_settings['latitude'] = $center_at[1];
+      update_option( 'mm_plugin_settings', $map_settings );
+
+      $option_check['zip'] = $map_settings['zip'];
+      $option_check['city'] = $map_settings['city'];
+      $option_check['country'] = $map_settings['country'];
+      $option_check['address'] = $map_settings['address'];    
+      update_option( 'mm_plugin_center_check', $option_check);  
+    } else {
+      $center_at = array(
+        $map_settings['longitude'],
+        $map_settings['latitude']
+        );
+    }      
  
 ?>
 <script>	
 	var location_marker = <?php echo json_encode($locations_a); ?>;
   var map_options = <?php echo json_encode($map_options); ?>;	
-
   var center_at = <?php echo json_encode($center_at); ?>; 
-
 </script>
 
 
