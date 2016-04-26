@@ -150,8 +150,8 @@ function mm_initialize_plugin_display_options() {
         'mm_scroll_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
-        array(                              
-            __( ' Enable scrolling/zooming over map.', 'map-me' ),
+        array(
+          __( ' Enable scrolling/zooming over map.', 'map-me' ),
         )
     );
     add_settings_field( 
@@ -165,8 +165,8 @@ function mm_initialize_plugin_display_options() {
         )
     ); 
     add_settings_field( 
-        'styles',                      
-        __( 'Map Theme', 'map-me' ),                          
+        'styles',  
+        __( 'Map Theme', 'map-me' ),   
         'mm_styles_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        

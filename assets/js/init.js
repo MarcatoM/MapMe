@@ -27,7 +27,6 @@ function initialize(){
       locations[i][5] => show info window     
       locations[i][6] => info window data
       */
-
       var latlng = new google.maps.LatLng(locations[i][0], locations[i][1]);
 
       
@@ -37,6 +36,7 @@ function initialize(){
         });       
       
 
+
       marker.setIcon(locations[i][3]);      
 
       if (locations[i][2] == 'yes') {    
@@ -44,9 +44,11 @@ function initialize(){
 
           marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 
+
           if (marker_animation == "BOUNCE"){
             marker.setAnimation(google.maps.Animation.BOUNCE);
           };
+
           if (marker_animation == "DROP"){
             marker.setAnimation(google.maps.Animation.DROP);
           };        

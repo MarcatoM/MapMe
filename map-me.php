@@ -1,7 +1,7 @@
 <?php
  /*
  Plugin Name: Map Me
- Plugin URI: 
+ Plugin URI:
  Description: Google Maps Plugin. Easy, fast and efficient way to embed google map into your site.
  Author: Marin Matosevic
  Version: 1.1
@@ -28,14 +28,13 @@ include 'admin/add_locations.php';
 include 'admin/help_menu_page.php';
 
 
-function mm_styles_and_scripts() {   
-
+function mm_styles_and_scripts() {  
   wp_enqueue_script('map-styles', plugins_url( '/assets/js/map_styles.js' , __FILE__ ), array('jquery'), '1.0', true);
 
   wp_register_script('maps-api', '//maps.googleapis.com/maps/api/js', true);
-
   
   wp_register_script('init-script', plugins_url( '/assets/js/init.js' , __FILE__ ), array('jquery'), '1.0', true);  
+
 }
 add_action( 'wp_enqueue_scripts', 'mm_styles_and_scripts' );
 
@@ -50,6 +49,7 @@ function mm_location_styles() {
 }
 add_action( 'admin_print_scripts-post-new.php', 'mm_location_styles', 11 );
 add_action( 'admin_print_scripts-post.php', 'mm_location_styles', 11 );
+
 
 
 
@@ -78,6 +78,7 @@ function mm_map(){
   wp_enqueue_script( 'maps-api' );
   wp_enqueue_script( 'init-script' );
 
+
   $map_settings = get_option('mm_plugin_settings');
 
   if (isset($map_settings['scroll'])){
@@ -94,7 +95,6 @@ function mm_map(){
 
   $map_options = array();   
   array_push( $map_options, [ $map_settings['zoom'], $scroll, $controls, $map_settings['styles'] ] );
-
 
 
   $locations_a = array();
@@ -128,7 +128,6 @@ function mm_map(){
     $mm_icon = get_post_meta(get_the_ID(), "mm_icon", true);
 
     $mm_featured_animation = get_post_meta(get_the_ID(), "mm_featured_animation", true);
-
 
     $mm_info_window = get_post_meta(get_the_ID(), 'mm_info_window', true);
 
@@ -204,6 +203,7 @@ function mm_map(){
     }      
  
 ?>
+
 <script>  
   var location_marker = <?php echo json_encode($locations_a); ?>;
   var map_options = <?php echo json_encode($map_options); ?>; 
@@ -212,6 +212,7 @@ function mm_map(){
 
 
   <div id="googleMap" style="width:100%;height:<?php echo $map_settings['height']; ?>px;"></div>
+
 
 <?php
 }
