@@ -65,6 +65,9 @@ Just paste [mm_map] shortcode and you're done.
 
 == Changelog ==
 
+= 1.1.1 =
+* Map position fix
+
 = 1.1. =
 * Info window updated, more control over content
 
@@ -72,6 +75,9 @@ Just paste [mm_map] shortcode and you're done.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+* Map position fix
 
 = 1.1. =
 * Info window updated, more control over content
