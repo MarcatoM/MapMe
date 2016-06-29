@@ -124,6 +124,7 @@ function location_data_box($object){
   $mm_latitude = get_post_meta($object->ID, 'mm_latitude', true);
 
   $mm_url = get_post_meta($object->ID, "mm_url", true);
+
   $mm_description = get_post_meta(get_the_ID(), "mm_description", true);
 
   $mm_show_address = get_post_meta(get_the_ID(), "mm_show_address", true);
@@ -168,30 +169,22 @@ function location_data_box($object){
         <tr>
           <td><strong><?php _e("City: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_city" value="<?php echo $mm_city; ?>" /></td>
-
           <td class="show-info"><input type="checkbox" id="mm_show_city" name="mm_show_city" value="yes" <?php if($mm_show_city == "yes"){echo 'checked';} ?> /></td>
-
         </tr>
         <tr>
           <td><strong><?php _e("Zip Code: ", 'map-me' ); ?></strong></td>
           <td><input type="number" name="mm_zip" value="<?php echo $mm_zip; ?>" /></td>
-
           <td class="show-info"><input type="checkbox" id="mm_show_zip" name="mm_show_zip" value="yes" <?php if($mm_show_zip == "yes"){echo 'checked';} ?> /></td>
-
         </tr>
         <tr>
           <td><strong><?php _e("Country: ", 'map-me' ); ?></strong></td>
           <td><input type="text" name="mm_country" value="<?php echo $mm_country; ?>" /></td>
-
           <td class="show-info"><input type="checkbox" id="mm_show_country" name="mm_show_country" value="yes" <?php if($mm_show_country == "yes"){echo 'checked';} ?> /></td>
-
         </tr> 
         <tr>
           <td><strong><?php _e("Website: ", 'map-me' ); ?></strong></td>
           <td><input type="url" name="mm_url" value="<?php echo $mm_url; ?>" /></td>
-
           <td class="show-info"><input type="checkbox" id="mm_show_url" name="mm_show_url" value="yes" <?php if($mm_show_url == "yes"){echo 'checked';} ?> /></td>
-
         </tr> 
 
         <tr style="height:15px;"></tr>  
@@ -317,9 +310,9 @@ function marker_icon_data_box($object){
 
       <?php } ?>
 
-    </div>   
-
+    </div>    
     <?php
+
 }
 
 function mm_add_settings_box(){    
@@ -334,7 +327,6 @@ function mm_save_settings_box($post_id, $post, $update){
     if( (!isset($_POST["meta-box-nonce1"]) || !wp_verify_nonce($_POST["meta-box-nonce1"], basename(__FILE__))) && 
         (!isset($_POST["meta-box-nonce2"]) || !wp_verify_nonce($_POST["meta-box-nonce2"], basename(__FILE__))) && 
         (!isset($_POST["meta-box-nonce3"]) || !wp_verify_nonce($_POST["meta-box-nonce3"], basename(__FILE__))) ){
-
          return $post_id;
       }
 
@@ -418,7 +410,6 @@ function mm_save_settings_box($post_id, $post, $update){
         $meta_mm_featured_animation = $_POST["mm_featured_animation"]; 
         update_post_meta($post_id, "mm_featured_animation", $meta_mm_featured_animation);          
     }   
-
     if(isset($_POST["mm_info_window"])){
         $meta_mm_info_window = $_POST["mm_info_window"]; 
         update_post_meta($post_id, "mm_info_window", $meta_mm_info_window);          

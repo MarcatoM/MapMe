@@ -29,6 +29,7 @@ add_action('admin_menu', 'mm_dashboard_page');
 function mm_default_options() {
     
     $defaults1 = array(
+        'api_key'         =>  '',
         'city'            =>  '',
         'zip'             =>  '',
         'country'         =>  '',
@@ -42,6 +43,46 @@ function mm_default_options() {
     
     return apply_filters( 'mm_default_options', $defaults1 );
     
+}
+
+
+function mm_initialize_plugin_api_key() {
+    
+    if( false == get_option( 'mm_plugin_settings' ) ) {  
+        add_option( 'mm_plugin_settings', apply_filters( 'mm_default_options', mm_default_options() ) );
+    } 
+
+    
+    add_settings_section(
+        'api_key_settings',        
+        __( 'API key', 'map-me' ),     
+        'mm_api_key_options_callback', 
+        'mm_plugin_settings'     
+    );
+    
+   
+    add_settings_field( 
+        'api_key',                      
+        __( 'API key', 'map-me' ),                          
+        'mm_api_key_callback', 
+        'mm_plugin_settings',   
+        'api_key_settings',        
+        array(                              
+            __( ' API key', 'map-me' ),
+        )
+    );
+ 
+    register_setting(
+        'mm_plugin_settings',
+        'mm_plugin_settings'
+    );
+    
+} 
+add_action( 'admin_init', 'mm_initialize_plugin_api_key' );
+
+
+function mm_api_key_options_callback() {
+    echo '<p>' . __( 'Usage of the Google Maps APIs now requires a key. If you are using the Google Maps API on localhost or your domain was not active prior to June 22nd, 2016, it will require a key going forward. To fix this problem, please see the Google Maps APIs documentation to get a key and add it to your application: ', 'map-me' ) . '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">get API key</a></p>';
 }
 
 
@@ -150,8 +191,8 @@ function mm_initialize_plugin_display_options() {
         'mm_scroll_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
-        array(
-          __( ' Enable scrolling/zooming over map.', 'map-me' ),
+        array(                              
+            __( ' Enable scrolling/zooming over map.', 'map-me' ),
         )
     );
     add_settings_field( 
@@ -165,8 +206,8 @@ function mm_initialize_plugin_display_options() {
         )
     ); 
     add_settings_field( 
-        'styles',  
-        __( 'Map Theme', 'map-me' ),   
+        'styles',                      
+        __( 'Map Theme', 'map-me' ),                          
         'mm_styles_callback', 
         'mm_plugin_settings',   
         'general_display_settings_section',        
@@ -201,7 +242,17 @@ function mm_general_display_options_callback() {
 }
 
 
+//API key
+function mm_api_key_callback($args) {
+    $options = get_option('mm_plugin_settings');
+    $mm_api_key = isset($options['api_key']) ? $options['api_key'] : null;
+    $html = '<input type="text" id="api_key" name="mm_plugin_settings[api_key]" value="'.$mm_api_key.'" />';   
+    $html .= '<label for="api_key">&nbsp;'  . $args[0] . '</label>';     
+    echo $html;     
+}
 
+
+// Center map
 function mm_city_callback($args) {
     $options = get_option('mm_plugin_settings');
     $html = '<input type="text" id="city" name="mm_plugin_settings[city]" value="'.$options['city'].'" />';   

@@ -1,11 +1,9 @@
 #mm_location_settings tr{
   margin-bottom: 15px;
 }
-
 #mm_location .show-info{
   text-align: center;
 }
-
 .mm_marker_animation{
   width: 70px;
   display: inline-block;

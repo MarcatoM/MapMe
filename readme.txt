@@ -17,7 +17,6 @@ Easy and fast way to embed google map into your site. Choose between more than 2
 Map Me plugin can display multiple locations on the map and each location can have different marker and info window, you can also animate some markers to point them out from others.
 Map Me offers more than 20 different map theme styles so your map will look and feel perfectly on every website.
 Map can be easily inserted into post or page via [mm_map] shortcode, just pass it into your post or page and you're done.
-No API key needed.
 
 
 = Features: =
@@ -31,7 +30,6 @@ No API key needed.
 * Add info windows with details about location.
 * Easy to change default map settings.
 * Responsive.
-* No API key needed.
 
 == Installation ==
 
@@ -65,6 +63,9 @@ Just paste [mm_map] shortcode and you're done.
 
 == Changelog ==
 
+= 1.1.2 =
+* API key option added
+
 = 1.1.1 =
 * Map position fix
 
@@ -75,6 +76,9 @@ Just paste [mm_map] shortcode and you're done.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+* API key option added
 
 = 1.1.1 =
 * Map position fix
