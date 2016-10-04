@@ -345,7 +345,13 @@ function mm_styles_callback($args) {
                 'flat_green',
                 'red_alert',
                 'default',
-                'the_propia_effect'
+                'the_propia_effect',
+                'avocado_world',
+                'cobalt',
+                'bright_and_bubbly',
+                'purple_rain',
+                'candy_colours',
+                'neon_world'
                 );
               sort($option_values);
               foreach($option_values as $key => $value){
@@ -391,7 +397,12 @@ function mm_display_page() { ?>
                 
         submit_button();            
     ?>
-    </form>     
+    </form>    
+
+ <div class="wrap" style="background-color:#d9ffd2;margin:0;padding:10px;border:1px solid #afafaf;">
+  <p class="description">Hey, thank you for installing MapMe plugin! Could you please do me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation. <a href="https://wordpress.org/support/plugin/map-me/reviews/" target="_blank">Click here</a></p>
+  <p><i>~ <a href="http://marinmatosevic.com" target="_blank">Marin Matosevic</a></i></p>
+</div>    
 
 
 <?php     

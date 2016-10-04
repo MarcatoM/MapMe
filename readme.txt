@@ -1,7 +1,7 @@
 === Map Me ===
 Contributors: MarinMatosevic
 Donate link: http://marinmatosevic.com/
-Tags: map, maps, google, google maps, locator, store, add, location, geocode
+Tags: map, maps, google, google maps, locator, store, add, location, locations, geocode, mark, markers, info window, shortcode
 Requires at least: 4.0.0
 Tested up to: 4.5
 Stable tag: trunk
@@ -15,14 +15,14 @@ Easy and fast way to embed google map into your site. Choose between more than 2
 = Map Me is easy to use =
 
 Map Me plugin can display multiple locations on the map and each location can have different marker and info window, you can also animate some markers to point them out from others.
-Map Me offers more than 20 different map theme styles so your map will look and feel perfectly on every website.
+Map Me offers more than 25 different map theme styles so your map will look and feel perfectly on every website.
 Map can be easily inserted into post or page via [mm_map] shortcode, just pass it into your post or page and you're done.
 
 
 = Features: =
 
 * Easy to use, no coding required.
-* More than 20 map theme styles.
+* More than 25 map theme styles.
 * Multiple markers.
 * Automatic geolocation.
 * Each map marker can have a unique icon.
@@ -63,6 +63,10 @@ Just paste [mm_map] shortcode and you're done.
 
 == Changelog ==
 
+= 1.1.3 =
+* Syntax error fixed
+* 6 new map themes added
+
 = 1.1.2 =
 * API key option added
 
@@ -76,6 +80,10 @@ Just paste [mm_map] shortcode and you're done.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+* Syntax error fixed
+* 6 new map themes added
 
 = 1.1.2 =
 * API key option added

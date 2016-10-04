@@ -26,14 +26,13 @@ function geocode($address){
         if($lati && $longi && $formatted_address){
          
             // put the data in the array
-            $data_arr = array();            
-             
-            array_push(
-                $data_arr, 
+            $data_arr = [];             
+            
+                $data_arr = [ 
                     $lati, 
                     $longi, 
                     $formatted_address
-                );
+                ];
              
             return $data_arr;
              
