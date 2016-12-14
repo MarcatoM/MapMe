@@ -2,15 +2,18 @@ function initialize(){
 
     var locations = location_marker;
 
+    var mapType = map_options[0][4];
+    if (!mapType) mapType = "roadmap";    
+    
     map = new google.maps.Map(document.getElementById('googleMap'), {
       zoom: Number(map_options[0][0]),
       scrollwheel: map_options[0][1],
       center: new google.maps.LatLng(center_at[0], center_at[1]),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeId: mapType,
       disableDefaultUI: map_options[0][2],
       styles: window[map_options[0][3]]
 
-    }); 
+    });
 
     var infowindow = new google.maps.InfoWindow({maxWidth: 250});
 

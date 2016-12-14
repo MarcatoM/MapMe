@@ -33,7 +33,8 @@ function mm_default_options() {
         'city'            =>  '',
         'zip'             =>  '',
         'country'         =>  '',
-        'address'         =>  '',     
+        'address'         =>  '', 
+        'map_type'        =>  'roadmap',      
         'zoom'            =>  7,
         'scroll'          =>  false,
         'controls'        =>  false,   
@@ -172,9 +173,19 @@ function mm_initialize_plugin_display_options() {
         __( 'Display Options', 'map-me' ),     
         'mm_general_display_options_callback', 
         'mm_plugin_settings'     
-    );    
-   
+    ); 
 
+
+    add_settings_field( 
+        'map_type',                      
+        __( 'Map Type', 'map-me' ),                          
+        'mm_map_type_callback', 
+        'mm_plugin_settings',   
+        'general_display_settings_section',        
+        array(                              
+            __( ' Map Type.', 'map-me' ),
+        )
+    );
     add_settings_field( 
         'zoom',                      
         __( 'Initial Zoom', 'map-me' ),                          
@@ -282,6 +293,38 @@ function mm_address_callback($args) {
 }
 
 // Display Options
+
+function mm_map_type_callback($args) {
+    $options = get_option('mm_plugin_settings'); 
+    if ( !isset($options['map_type']) ) $options['map_type'] = "roadmap"; 
+    ?>
+
+      <select id="mm_map_type" name="mm_plugin_settings[map_type]">
+          <?php 
+              $option_values = array(                
+                'roadmap',
+                'terrain',
+                'satellite',
+                'hybrid'
+                );
+              sort($option_values);
+              foreach($option_values as $value){
+                  if($value == $options['map_type']){
+                      ?>
+                          <option value="<?php echo $value; ?>" selected><?php echo ucwords($value); ?></option>
+                      <?php    
+                  }else{
+                      ?>
+                          <option value="<?php echo $value; ?>"><?php echo ucwords($value); ?></option>
+                      <?php
+                  }
+              }
+          ?>
+      </select>
+
+      <label for="mm_map_type"> <?php //echo $args[0]; ?></label>
+<?php   
+}
 
 function mm_zoom_callback($args) {
     $options = get_option('mm_plugin_settings'); ?>

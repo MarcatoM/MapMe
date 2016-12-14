@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Google Maps Plugin. Easy, fast and efficient way to embed google map into your site.
  Author: Marin Matosevic
- Version: 1.1.3
+ Version: 1.1.4
  Author URI: http://marinmatosevic.com
  Text Domain: map-me
  */
@@ -80,7 +80,6 @@ function mm_add_action_plugin( $actions, $plugin_file ){
 }
 
 
-
 // Map 
 function mm_map(){ 
 
@@ -101,13 +100,19 @@ function mm_map(){
     $controls = false;
   }
 
+  if (!isset($map_settings['map_type'])){
+    $map_type = null;
+  } else {
+    $map_type = $map_settings['map_type'];
+  } 
+
   $map_options = [];   
   $map_options[] = [ 
       $map_settings['zoom'], 
       $scroll, $controls, 
-      $map_settings['styles'] 
+      $map_settings['styles'],
+      $map_type
     ];
-
 
 
   $locations_a = [];
@@ -185,7 +190,6 @@ function mm_map(){
     endwhile;
 
     wp_reset_postdata();
-
 
 
     $option_check = get_option('mm_plugin_center_check');

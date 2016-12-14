@@ -3,7 +3,7 @@ Contributors: MarinMatosevic
 Donate link: http://marinmatosevic.com/
 Tags: map, maps, google, google maps, locator, store, add, location, locations, geocode, mark, markers, info window, shortcode
 Requires at least: 4.0.0
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,9 @@ Just paste [mm_map] shortcode and you're done.
 
 == Changelog ==
 
+= 1.1.4 =
+* Added map types
+
 = 1.1.3 =
 * Syntax error fixed
 * 6 new map themes added
@@ -80,6 +83,9 @@ Just paste [mm_map] shortcode and you're done.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+* Added map types
 
 = 1.1.3 =
 * Syntax error fixed
