@@ -63,6 +63,9 @@ Just paste [mm_map] shortcode and you're done.
 
 == Changelog ==
 
+= 1.1.5 =
+* Option to manually enter coordinates
+
 = 1.1.4 =
 * Added map types
 
@@ -83,6 +86,9 @@ Just paste [mm_map] shortcode and you're done.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+* Option to manually enter coordinates
 
 = 1.1.4 =
 * Added map types

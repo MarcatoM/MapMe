@@ -134,6 +134,8 @@ function location_data_box($object){
   $mm_show_description = get_post_meta(get_the_ID(), "mm_show_description", true);
   $mm_show_url = get_post_meta(get_the_ID(), "mm_show_url", true);
 
+  $mm_add_coordinates = get_post_meta(get_the_ID(), "mm_add_coordinates", true);
+
   if ($mm_show_address == "") {
     $mm_show_address = "yes";
   }
@@ -151,6 +153,10 @@ function location_data_box($object){
   }
   if ($mm_show_url == "") {
     $mm_show_url = "yes";
+  }
+
+  if ($mm_add_coordinates == "" || $mm_add_coordinates == null) {
+    $mm_add_coordinates = "no";
   }
 
 ?>
@@ -188,15 +194,20 @@ function location_data_box($object){
         </tr> 
 
         <tr style="height:15px;"></tr>  
-             
-        <tr>          
-          <td><strong><?php _e("Longitude: ", 'map-me' ); ?></strong></td>
-          <td><input type="text" name="mm_longitude" value="<?php echo $mm_longitude; ?>" disabled style="cursor:no-drop;"/></td>
-        </tr>
+
+        <tr>
+          <td><strong><?php _e("Manually add <br>coordinates", 'map-me'); ?></strong></td>
+          <td><input type="checkbox" id="mm_add_coordinates" name="mm_add_coordinates" value="yes" <?php if($mm_add_coordinates == "yes"){echo 'checked';} ?> /> <small>(not recommended)</small></td>
+        </tr> 
+        
         <tr>
           <td><strong><?php _e("Latitude: ", 'map-me' ); ?></strong></td>
-          <td><input type="text" name="mm_latitude" value="<?php echo $mm_latitude; ?>" disabled style="cursor:no-drop;"/></td>
-        </tr>
+          <td><input type="text" id="mm_latitude" name="mm_latitude" value="<?php echo $mm_latitude; ?>" <?php if($mm_add_coordinates == "no"){echo 'disabled style="cursor:no-drop; background-color: #f1f1f1;"';} ?> /></td>
+        </tr>     
+        <tr>          
+          <td><strong><?php _e("Longitude: ", 'map-me' ); ?></strong></td>
+          <td><input type="text" id="mm_longitude" name="mm_longitude" value="<?php echo $mm_longitude; ?>" <?php if($mm_add_coordinates == "no"){echo 'disabled style="cursor:no-drop; background-color: #f1f1f1;"';} ?>/></td>
+        </tr>        
 
         <tr style="height:15px;"></tr>  
 
@@ -365,6 +376,10 @@ function mm_save_settings_box($post_id, $post, $update){
     $meta_mm_show_description = "";
     $meta_mm_show_url = "";
 
+    $meta_mm_add_coordinates = "";
+    $meta_mm_latitude = "";
+    $meta_mm_longitude = "";
+
 
     if(isset($_POST["mm_address"])){
         $meta_mm_address = $_POST["mm_address"]; 
@@ -387,14 +402,31 @@ function mm_save_settings_box($post_id, $post, $update){
         $geo_country = $meta_mm_country;          
     }
 
-      $address = $geo_zip .', '. $geo_city .', '. $geo_address .', '. $geo_country;
-      $lat_lon = geocode($address);
+    if(isset($_POST["mm_add_coordinates"])){
 
-      if($lat_lon){
-        update_post_meta($post_id, "mm_longitude", $lat_lon[0]);  
-        update_post_meta($post_id, "mm_latitude", $lat_lon[1]);
-      }
-    
+        $meta_mm_add_coordinates = $_POST["mm_add_coordinates"]; 
+
+        if (isset($_POST["mm_latitude"]) && isset($_POST["mm_longitude"])) {
+            $meta_mm_latitude = $_POST["mm_latitude"];
+            $meta_mm_longitude = $_POST["mm_longitude"];
+            update_post_meta($post_id, "mm_latitude", $meta_mm_latitude);
+            update_post_meta($post_id, "mm_longitude", $meta_mm_longitude);
+        }
+        update_post_meta($post_id, "mm_add_coordinates", $meta_mm_add_coordinates); 
+                        
+    } else {
+
+        $address = $geo_zip .', '. $geo_city .', '. $geo_address .', '. $geo_country;
+        $lat_lon = geocode($address);
+
+        if($lat_lon){
+          update_post_meta($post_id, "mm_longitude", $lat_lon[0]);  
+          update_post_meta($post_id, "mm_latitude", $lat_lon[1]);
+        }
+
+        update_post_meta($post_id, "mm_add_coordinates", "no");
+    }
+         
 
     if(isset($_POST["mm_url"])){
         $meta_mm_url = $_POST["mm_url"]; 
