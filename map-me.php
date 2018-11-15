@@ -1,34 +1,34 @@
 <?php
  /*
  Plugin Name: Map Me
- Plugin URI: 
+ Plugin URI:
  Description: Google Maps Plugin. Easy, fast and efficient way to embed google map into your site.
  Author: Marin Matosevic
- Version: 1.1.5
- Author URI: http://marinmatosevic.com
+ Version: 1.2.0
+ Author URI: http://marinmatosevic.com/
  Text Domain: map-me
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
-} 
+}
 
-function icons_path(){
+function icons_path() {
   $folder =  plugin_dir_url( __FILE__ ) . 'assets/icons/';
   return $folder;
-} 
-function icons_dir_path(){
+}
+function icons_dir_path() {
   $folder =  plugin_dir_path( __FILE__ ) . 'assets/icons/';
   return $folder;
-} 
-include 'admin/geocode.php'; 
+}
+include 'admin/geocode.php';
 include 'admin/plugin_menu_page.php';
 include 'admin/add_locations.php';
 include 'admin/help_menu_page.php';
 
 
-function mm_styles_and_scripts() {   
+function mm_styles_and_scripts() {
 
   wp_enqueue_script('map-styles', plugins_url( '/assets/js/map_styles.js' , __FILE__ ), array('jquery'), '1.0', true);
 
@@ -36,27 +36,26 @@ function mm_styles_and_scripts() {
   $mm_api_key = isset($options['api_key']) ? $options['api_key'] : null;
 
   if ( $mm_api_key !== null ) {
-    $map_url = '//maps.googleapis.com/maps/api/js?key='.$mm_api_key;    
+    $map_url = '//maps.googleapis.com/maps/api/js?key='.$mm_api_key;
   } else {
-    $map_url = '//maps.googleapis.com/maps/api/js';   
+    $map_url = '//maps.googleapis.com/maps/api/js';
   }
 
-  wp_register_script('maps-api', $map_url, true);  
-  wp_register_script('init-script', plugins_url( '/assets/js/init.js' , __FILE__ ), array('jquery'), '1.0', true);  
+  wp_register_script('maps-api', $map_url, true);
+  wp_register_script('init-script', plugins_url( '/assets/js/init.js' , __FILE__ ), array('jquery'), '1.0', true);
 }
 add_action( 'wp_enqueue_scripts', 'mm_styles_and_scripts' );
 
 
 function mm_location_styles() {
     global $post_type;
-    if( 'mm' == $post_type ){     
-      wp_enqueue_style( 'mm_custom_styles', plugins_url( '/assets/css/mm_custom_styles.css', __FILE__ )); 
-      wp_enqueue_script( 'mm_custom_script', plugins_url( '/assets/js/mm_custom_script.js', __FILE__ ), array('jquery'), '1.0', true);  
+    if( 'mm' == $post_type ){
+      wp_enqueue_style( 'mm_custom_styles', plugins_url( '/assets/css/mm_custom_styles.css', __FILE__ ));
+      wp_enqueue_script( 'mm_custom_script', plugins_url( '/assets/js/mm_custom_script.js', __FILE__ ), array('jquery'), '1.0', true);
     }
 }
 add_action( 'admin_print_scripts-post-new.php', 'mm_location_styles', 11 );
 add_action( 'admin_print_scripts-post.php', 'mm_location_styles', 11 );
-
 
 
 add_filter( 'plugin_action_links', 'mm_add_action_plugin', 10, 5 );
@@ -67,23 +66,24 @@ function mm_add_action_plugin( $actions, $plugin_file ){
     $plugin = plugin_basename(__FILE__);
   if ($plugin == $plugin_file) {
 
-      $settings = array('settings' => '<a href="admin.php?page=mm_plugin_settings">' . __('Settings', 'General') . '</a>');      
-    
+      $settings = array('settings' => '<a href="admin.php?page=mm_plugin_settings">' . __('Settings', 'General') . '</a>');
+
         $actions = array_merge($settings, $actions);
-      
+
     }
-    
+
     return $actions;
 }
 
 
-// Map 
-function mm_map(){ 
+// Map
+function mm_map(){
 
   wp_enqueue_script( 'maps-api' );
   wp_enqueue_script( 'init-script' );
 
   $map_settings = get_option('mm_plugin_settings');
+  $mm_api_key = isset($map_settings['api_key']) ? $map_settings['api_key'] : null;
 
   if (isset($map_settings['scroll'])){
     $scroll = true;
@@ -101,16 +101,15 @@ function mm_map(){
     $map_type = null;
   } else {
     $map_type = $map_settings['map_type'];
-  } 
+  }
 
-  $map_options = [];   
-  $map_options[] = [ 
-      $map_settings['zoom'], 
-      $scroll, $controls, 
+  $map_options = [];
+  $map_options[] = [
+      $map_settings['zoom'],
+      $scroll, $controls,
       $map_settings['styles'],
       $map_type
     ];
-
 
   $locations_a = [];
 
@@ -121,38 +120,37 @@ function mm_map(){
       );
     $loop = new WP_Query( $args );
 
-    while ( $loop->have_posts() ) : $loop->the_post(); 
+    while ( $loop->have_posts() ) : $loop->the_post();
 
-    $mm_title = get_the_title(); 
+    $mm_title = get_the_title();
 
-    $the_post_id = get_the_ID();     
+    $the_post_id = get_the_ID();
 
-    $mm_longitude = get_post_meta(get_the_ID(), 'mm_longitude', true);
-    $mm_latitude = get_post_meta(get_the_ID(), 'mm_latitude', true);
+    $mm_longitude = get_post_meta($the_post_id, 'mm_longitude', true);
+    $mm_latitude = get_post_meta($the_post_id, 'mm_latitude', true);
 
-    $mm_address = get_post_meta(get_the_ID(), "mm_address", true);
-    $mm_city = get_post_meta(get_the_ID(), "mm_city", true);
-    $mm_zip = get_post_meta(get_the_ID(), "mm_zip", true);
-    $mm_country = get_post_meta(get_the_ID(), "mm_country", true);
+    $mm_address = get_post_meta($the_post_id, "mm_address", true);
+    $mm_city = get_post_meta($the_post_id, "mm_city", true);
+    $mm_zip = get_post_meta($the_post_id, "mm_zip", true);
+    $mm_country = get_post_meta($the_post_id, "mm_country", true);
 
-    $mm_url = get_post_meta(get_the_ID(), "mm_url", true);
-    $mm_featured = get_post_meta(get_the_ID(), "mm_featured", true);
+    $mm_url = get_post_meta($the_post_id, "mm_url", true);
+    $mm_featured = get_post_meta($the_post_id, "mm_featured", true);
 
-    $mm_description = get_post_meta(get_the_ID(), "mm_description", true);
+    $mm_description = get_post_meta($the_post_id, "mm_description", true);
 
-    $mm_icon = get_post_meta(get_the_ID(), "mm_icon", true);
+    $mm_icon = get_post_meta($the_post_id, "mm_icon", true);
 
-    $mm_featured_animation = get_post_meta(get_the_ID(), "mm_featured_animation", true);
+    $mm_featured_animation = get_post_meta($the_post_id, "mm_featured_animation", true);
 
+    $mm_info_window = get_post_meta($the_post_id, 'mm_info_window', true);
 
-    $mm_info_window = get_post_meta(get_the_ID(), 'mm_info_window', true);
-
-    $mm_show_address = get_post_meta(get_the_ID(), 'mm_show_address', true);
-    $mm_show_zip = get_post_meta(get_the_ID(), 'mm_show_zip', true);
-    $mm_show_city = get_post_meta(get_the_ID(), 'mm_show_city', true);    
-    $mm_show_country = get_post_meta(get_the_ID(), 'mm_show_country', true);
-    $mm_show_description = get_post_meta(get_the_ID(), 'mm_show_description', true);
-    $mm_show_url = get_post_meta(get_the_ID(), 'mm_show_url', true);
+    $mm_show_address = get_post_meta($the_post_id, 'mm_show_address', true);
+    $mm_show_zip = get_post_meta($the_post_id, 'mm_show_zip', true);
+    $mm_show_city = get_post_meta($the_post_id, 'mm_show_city', true);
+    $mm_show_country = get_post_meta($the_post_id, 'mm_show_country', true);
+    $mm_show_description = get_post_meta($the_post_id, 'mm_show_description', true);
+    $mm_show_url = get_post_meta($the_post_id, 'mm_show_url', true);
 
     $mm_info_window_data = "";
     $mm_info_window_data .= '<strong>' . $mm_title . '</strong>' . '</br>';
@@ -176,9 +174,9 @@ function mm_map(){
     }
 
     $locations_a[] = [
-        $mm_longitude, 
-        $mm_latitude,      
-        $mm_featured, 
+        $mm_longitude,
+        $mm_latitude,
+        $mm_featured,
         $mm_icon,
         $mm_featured_animation,
         $mm_info_window,
@@ -196,7 +194,9 @@ function mm_map(){
         $option_check['country'] != $map_settings['country'] ||
         $option_check['address'] != $map_settings['address'] ) {
 
-      $center_at = geocode($map_settings['zip'].', '.$map_settings['city'].', '.$map_settings['country'].', '.$map_settings['address']);
+      $full_address = $map_settings['zip'].', '.$map_settings['city'].', '.$map_settings['country'].', '.$map_settings['address'];
+
+      $center_at = geocode($full_address, $mm_api_key);
 
       update_option( 'mm_center_longitude', $center_at[0] );
       update_option( 'mm_center_latitude', $center_at[1] );
@@ -206,22 +206,22 @@ function mm_map(){
       $option_check['country'] = $map_settings['country'];
       $option_check['address'] = $map_settings['address'];
 
-      update_option( 'mm_plugin_center_check', $option_check); 
+      update_option( 'mm_plugin_center_check', $option_check);
 
     } else {
 
       $center_at = array(
         get_option('mm_center_longitude'),
         get_option('mm_center_latitude')
-        );
+      );
+    }
 
-    }      
- 
 ?>
-<script>  
+<script>
   var location_marker = <?php echo json_encode($locations_a); ?>;
-  var map_options = <?php echo json_encode($map_options); ?>; 
-  var center_at = <?php echo json_encode($center_at); ?>; 
+  var map_options = <?php echo json_encode($map_options); ?>;
+  var center_at = <?php echo json_encode($center_at); ?>;
+  var mm_other_opt = null;
 </script>
 <?php
 
@@ -229,5 +229,5 @@ function mm_map(){
 
   return $mm_shortcode;
 }
-add_shortcode("mm_map", "mm_map"); 
+add_shortcode("mm_map", "mm_map");
 ?>

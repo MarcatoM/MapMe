@@ -3,7 +3,7 @@ Contributors: MarinMatosevic
 Donate link: http://marinmatosevic.com/
 Tags: map, maps, google, google maps, locator, store, add, location, locations, geocode, mark, markers, info window, shortcode
 Requires at least: 4.0.0
-Tested up to: 4.7
+Tested up to: 4.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,9 @@ Just paste [mm_map] shortcode and you're done.
 
 == Changelog ==
 
+= 1.2.0. =
+* Geocode bug fix, style updates
+
 = 1.1.5 =
 * Option to manually enter coordinates
 
@@ -87,6 +90,9 @@ Just paste [mm_map] shortcode and you're done.
 
 == Upgrade Notice ==
 
+= 1.2.0. =
+* Geocode bug fix, style updates
+
 = 1.1.5 =
 * Option to manually enter coordinates
 
@@ -109,7 +115,7 @@ Just paste [mm_map] shortcode and you're done.
 = 1.0. =
 * First Launch
 
- 
+
 == Additional Info ==
 
 **Idea Behind / Philosophy:** Just a little leightweight plugin for all WordPress users out there to make their maps look better. I'll try to add more plugin/theme support and more plugin option over time. So stay tuned.
