@@ -1,47 +1,56 @@
 <?php
 // function to geocode address, it will return false if unable to geocode address
-function geocode($address, $api_key){
+function geocode( $address=null, $api_key=null ) {
+
+    if (!$address) return;
 
     // url encode the address
-    $address = urlencode($address);
+    $address = urlencode( $address );
 
     // google map geocode api url
     $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&key='.$api_key;
 
     // get the json response
-    $resp_json = file_get_contents($url);
+    $response_json = file_get_contents($url);
 
     // decode the json
-    $resp = json_decode($resp_json, true);
+    $response = json_decode($response_json, true);
+
+    $output = [
+        'latitude'          => null,
+        'longitude'         => null,
+        'formatted_address' => null,
+        'error'             => null
+    ];
 
     // response status will be 'OK', if able to geocode given address
-    if($resp['status'] == 'OK'){
+    if ($response['status'] == 'OK') {
 
         // get the important data
-        $lati = $resp['results'][0]['geometry']['location']['lat'];
-        $longi = $resp['results'][0]['geometry']['location']['lng'];
-        $formatted_address = $resp['results'][0]['formatted_address'];
+        $latitude = $response['results'][0]['geometry']['location']['lat'];
+        $longitude = $response['results'][0]['geometry']['location']['lng'];
+        $formatted_address = $response['results'][0]['formatted_address'];
 
         // verify if data is complete
-        if($lati && $longi && $formatted_address){
+        if ($latitude && $longitude && $formatted_address) {
 
-            // put the data in the array
-            $data_arr = [];
+            $output = [
+                'latitude'          => $latitude,
+                'longitude'         => $longitude,
+                'formatted_address' => $formatted_address,
+                'error'             => null
+            ];
 
-                $data_arr = [
-                    $lati,
-                    $longi,
-                    $formatted_address
-                ];
+            return $output;
 
-            return $data_arr;
-
-        }else{
-            return false;
+        } else {
+            $output['error'] = true;
+            return $output;
         }
 
-    }else{
-        return false;
+    } else {
+        $output['error'] = isset($response['error_message']) ? $response['error_message'] : $response['status'];
+        return $output;
     }
 }
 

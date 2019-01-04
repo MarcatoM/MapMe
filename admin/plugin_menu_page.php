@@ -29,6 +29,7 @@ function mm_default_options() {
 
     $defaults1 = array(
         'api_key'         =>  '',
+        'api_key_2'       =>  '',
         'city'            =>  '',
         'zip'             =>  '',
         'country'         =>  '',
@@ -55,7 +56,7 @@ function mm_initialize_plugin_api_key() {
 
     add_settings_section(
         'api_key_settings',
-        __( 'API key', 'map-me' ),
+        __( 'API keys', 'map-me' ),
         'mm_api_key_options_callback',
         'mm_plugin_settings'
     );
@@ -63,12 +64,23 @@ function mm_initialize_plugin_api_key() {
 
     add_settings_field(
         'api_key',
-        __( 'API key', 'map-me' ),
+        __( 'API key for Google Maps (required)', 'map-me' ),
         'mm_api_key_callback',
         'mm_plugin_settings',
         'api_key_settings',
         array(
-            __( ' API key', 'map-me' ),
+            __( ' A Google Maps browser key is required to show Google Maps and make use of the map locations.', 'map-me' ),
+        )
+    );
+
+    add_settings_field(
+        'api_key_2',
+        __( 'API key for geocoding (optional)', 'map-me' ),
+        'mm_api_key_2_callback',
+        'mm_plugin_settings',
+        'api_key_settings',
+        array(
+            __( ' A Google Maps Geocoding server key will be required to calculate the latitude and longitude of an address. With this key, you can retrieve the geographical location of an address.', 'map-me' ),
         )
     );
 
@@ -82,7 +94,7 @@ add_action( 'admin_init', 'mm_initialize_plugin_api_key' );
 
 
 function mm_api_key_options_callback() {
-    echo '<p>' . __( 'Usage of the Google Maps APIs now requires a key. If you are using the Google Maps API on localhost or your domain was not active prior to June 22nd, 2016, it will require a key going forward. To fix this problem, please see the Google Maps APIs documentation to get a key and add it to your application: ', 'map-me' ) . '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">get API key</a></p>';
+    echo '<p>To use the Maps JavaScript API, you must <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">get an API key</a> which you can then add to field below. To learn more about API keys, see the <a href="https://developers.google.com/maps/api-key-best-practices" target="_blank">API Key Best Practices</a> and the <a href="https://developers.google.com/maps/faq#using-google-maps-apis" target="_blank">FAQs</a>.</p><p>If you have trouble translating addresses into geographical locations, please verify that the Google Maps Geocoding API is enabled in the <a href="https://console.developers.google.com/apis/enabled" target="_blank">Google Maps API Manager</a>.</p>';
 }
 
 
@@ -248,7 +260,7 @@ add_action( 'admin_init', 'mm_initialize_plugin_display_options' );
 
 
 function mm_general_display_options_callback() {
-    echo '<p>' . __( 'Display options.', 'map-me' ) . '</p>';
+    //echo '<p>' . __( 'Display options.', 'map-me' ) . '</p>';
 }
 
 
@@ -257,6 +269,17 @@ function mm_api_key_callback($args) {
     $options = get_option('mm_plugin_settings');
     $mm_api_key = isset($options['api_key']) ? $options['api_key'] : null;
     $html = '<input type="text" id="api_key" name="mm_plugin_settings[api_key]" value="'.$mm_api_key.'" />';
+    $html .= '<label for="api_key" class="mm-api-label">' . $args[0] . '</label>';
+
+    echo $html;
+}
+
+//API key 2
+function mm_api_key_2_callback($args) {
+    $options = get_option('mm_plugin_settings');
+    $mm_api_key = isset($options['api_key_2']) ? $options['api_key_2'] : null;
+    $html = '<input type="text" id="api_key_2" name="mm_plugin_settings[api_key_2]" value="'.$mm_api_key.'" />';
+    $html .= '<label for="api_key_2" class="mm-api-label">' . $args[0] . '</label>';
 
     echo $html;
 }
@@ -436,6 +459,12 @@ function mm_display_page() { ?>
         .wrap a {
             color: white;
         }
+        .mm-api-label {
+            display: block;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
         .mm-form {
             background-color: #fff;
             padding: 16px;
@@ -468,7 +497,7 @@ function mm_display_page() { ?>
     </form>
 
      <div class="wrap">
-        <p class="description">Hey, thank you for installing MapMe plugin! Could you please do me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation. <a href="https://wordpress.org/support/plugin/map-me/reviews/" target="_blank">Click here</a></p>
+        <p class="description">If you like <strong>MapMe</strong> please leave us a <a href="https://wordpress.org/support/plugin/map-me/reviews?rate=5#new-post" target="_blank">★★★★★</a> rating. A huge thanks in advance!</p>
         <p><i>~ <a href="http://marinmatosevic.com" target="_blank">Marin Matosevic</a></i></p>
     </div>
 
